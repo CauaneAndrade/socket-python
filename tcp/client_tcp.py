@@ -17,3 +17,9 @@ while data != ctrl_x:
     tcp.send(data.encode())
     data = input()
 tcp.close()
+
+
+u"""
+Em tcp.connect(dest), o método connect recebe o IP e a porta do servidor que vai se conectar.
+E em tcp.send(data.encode()) o send envia os pacotes que o cliente envia para o servidor.
+"""

@@ -1,8 +1,8 @@
 # Socket - conexão TCP e UDP em Python
 
 ## How to run
-- TCP: [tcp/README.md](tcp/README.md)
-- UDP: [udp/README.md](udp/README.md)
+- TCP: [tcp/HOWTO.md](tcp/HOWTO.md)
+- UDP: [udp/HOWTO.md](udp/HOWTO.md)
 
 # Passagem de mensagem
 O módulo Socket provê acesso a interface de socket BSD (Berkeley Software Distribution).
@@ -47,14 +47,20 @@ Já o encerramento da conexão ocorre em 4 etapas:
 
 ### a) Explique o código fonte utilizado
 #### [código servidor UDP - server_udp.py](./udp/server_udp.py):
-Em `socket.socket(socket.AF_INET, socket.SOCK_DGRAM)`, o `socket.AF_INET` significa o tipo de família de endereços, neste caso é IPv4; `socket.SOCK_DGRAM`, significa o tipo de conexão UDP.<br>
-Ainda, em `udp.recvfrom(1024)` é lido os pacotes que o cliente envia.
+Na criação do Socket, o `socket.socket()` pode receber até 3 parâmetros: o primeiro é a família de protocolos, o segundo é o tipo de transmissão (TCP ou UDP) e o último é o protocolo de transmissão (IPv4, IPv6). <br>
+A função `bind`, em udp.bind(orig), está associando o endereço IP e porta para o processor servidor. Este recebe 3 parâmetros: socket associado para ser registrado, endereço local para vincular ao socket e tamanho do endereço em bytes. <br>
+Em `udp.recvfrom(1024)` contém os pacotes que o cliente envia e quem é o cliente, o parâmetro `1024` passado é o tamanho do buffer em bytes.
+Por fim, em `udp.close()` é informado ao sistema operacional para terminar o
+uso do Socket.
 
 #### [código cliente UDP - client_udp.py](./udp/client_udp.py):
-O `udp.sendto(msg.encode(), dest)`, envia pacotes do cliente para o servidor.
+Na criação do Socket, o `socket.socket()` pode receber até 3 parâmetros: o primeiro é a família de protocolos, o segundo é o tipo de transmissão (TCP ou UDP) e o último é o protocolo de transmissão (IPv4, IPv6). <br>
+Em `udp.sendto(msg.encode(), dest)` é enviado ao servidor a mensagem do cliente; recebe como parâmetro a mensagem em bytecode e uma tupla que representa o endereço IP e a porta do servidor local. <br>
+Ao fim, `udp.close()` informa ao SO para finalizar o uso do Socket.
 
 ### b) Descreva os resultados obtidos
 Não é um protocolo voltado a conexão, pois não estabelece conexão entre origem e o destino. <br>
 Não há verificação de integridade, assim serve para serviços que a perda de algum pacote não com prometa o conteúdo, como trasmissão de áudio, transmissão de vídeo. <br>
 Também, um servidor consegue transmitir pacotes para vários clientes, assim é capaz de enviar grande massa de dado em pequeno espaço de tempo.
 
+![Resultado](./images/final_result_udp.png)
